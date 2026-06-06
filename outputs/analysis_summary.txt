@@ -1,5 +1,4 @@
 VIDEO SEGMENTASYONU ANALIZ OZETI
-================================
 
 Video Dosyasi:
 C:\Users\emine\Desktop\video_segmentasyon_projesi\data\traffic_video.mp4

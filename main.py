@@ -5,10 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from ultralytics import YOLO
 
-# =========================
-# 1. PROJE KLASÖRLERİ
-# =========================
 
+# 1. PROJE KLASÖRLERİ
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 data_dir = os.path.join(BASE_DIR, "data")
@@ -27,20 +25,15 @@ graph_path = os.path.join(report_dir, "arac_yogunluk_grafigi.png")
 
 print("Video yolu:", video_path)
 
-# =========================
-# 2. YOLO MODELİ
-# =========================
 
+# 2. YOLO MODELİ
 model = YOLO("yolov8n.pt")
 
 # COCO sınıf ID'leri:
 # 2 = car, 3 = motorcycle, 5 = bus, 7 = truck
 vehicle_classes = [2, 3, 5, 7]
 
-# =========================
 # 3. VİDEO AÇMA
-# =========================
-
 cap = cv2.VideoCapture(video_path)
 
 if not cap.isOpened():
@@ -55,10 +48,8 @@ print("FPS:", fps)
 print("Frame sayısı:", frame_count)
 print("Video boyutu:", original_width, "x", original_height)
 
-# =========================
-# 4. ÇIKTI VİDEOLARI
-# =========================
 
+# 4. ÇIKTI VİDEOLARI
 fourcc = cv2.VideoWriter_fourcc(*"XVID")
 
 detection_out = cv2.VideoWriter(
@@ -75,20 +66,15 @@ mask_out = cv2.VideoWriter(
     (original_width, original_height)
 )
 
-# =========================
-# 5. ANALİZ LİSTELERİ
-# =========================
 
+# 5. ANALİZ LİSTELERİ
 frame_numbers = []
 vehicle_counts = []
 density_labels = []
 
 frame_no = 0
 
-# =========================
 # 5.1 KARŞILAŞTIRMA İÇİN ÖRNEK FRAME KAYITLARI
-# =========================
-
 saved_examples = {
     "Dusuk Yogunluk": False,
     "Orta Yogunluk": False,
@@ -101,8 +87,7 @@ example_file_names = {
     "Yuksek Yogunluk": "high_density"
 }
 
-# Her karede YOLO çalıştırmak yavaş olabileceği için
-# her 3 karede bir tespit yapıyoruz.
+
 process_every_n_frame = 3
 
 last_boxes = []
@@ -110,10 +95,8 @@ last_vehicle_count = 0
 last_density = "Bekleniyor"
 last_decision_color = (255, 255, 255)
 
-# =========================
-# 6. VİDEO İŞLEME DÖNGÜSÜ
-# =========================
 
+# 6. VİDEO İŞLEME DÖNGÜSÜ
 while True:
     ret, frame = cap.read()
 
@@ -129,10 +112,8 @@ while True:
     # Beyaz = araç bölgeleri
     mask = np.zeros((original_height, original_width), dtype=np.uint8)
 
-    # =========================
+    
     # 7. YOLO ARAÇ TESPİTİ
-    # =========================
-
     if frame_no % process_every_n_frame == 0:
         results = model(frame, conf=0.35, verbose=False)
 
@@ -156,10 +137,8 @@ while True:
 
                     current_boxes.append((x1, y1, x2, y2, class_name, conf))
 
-        # =========================
+      
         # 8. KARAR DESTEK SİSTEMİ
-        # =========================
-
         if vehicle_count <= 5:
             density = "Dusuk Yogunluk"
             decision_color = (0, 255, 0)
@@ -179,10 +158,8 @@ while True:
     density = last_density
     decision_color = last_decision_color
 
-    # =========================
+   
     # 9. KUTULAR VE MASKE
-    # =========================
-
     for box_data in last_boxes:
         x1, y1, x2, y2, class_name, conf = box_data
 
@@ -214,10 +191,8 @@ while True:
             -1
         )
 
-    # =========================
+   
     # 10. ARAÇ TESPİT EKRANI BİLGİ PANELİ
-    # =========================
-
     cv2.rectangle(detection_frame, (20, 20), (650, 140), (0, 0, 0), -1)
 
     cv2.putText(
@@ -250,10 +225,8 @@ while True:
         2
     )
 
-    # =========================
+  
     # 11. MASKE EKRANI BİLGİ PANELİ
-    # =========================
-
     mask_bgr = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
 
     cv2.rectangle(mask_bgr, (20, 20), (650, 100), (0, 0, 0), -1)
@@ -278,17 +251,12 @@ while True:
         2
     )
 
-    # =========================
     # 12. ÇIKTI VİDEOLARINA YAZ
-    # =========================
-
     detection_out.write(detection_frame)
     mask_out.write(mask_bgr)
 
-    # =========================
+ 
     # 12.1 KARŞILAŞTIRMA İÇİN ÖRNEK FRAME KAYDETME
-    # =========================
-
     if density in saved_examples and saved_examples[density] == False:
         file_prefix = example_file_names[density]
 
@@ -309,41 +277,31 @@ while True:
 
         print(f"Örnek çıktı kaydedildi: {density}")
 
-    # =========================
+    
     # 13. EKRANDA AYRI AYRI GÖSTER
-    # =========================
-
     display_detection = cv2.resize(detection_frame, (960, 540))
     display_mask = cv2.resize(mask_bgr, (960, 540))
 
     cv2.imshow("Arac Tespiti ve Karar Destek Sistemi", display_detection)
     cv2.imshow("Siyah-Beyaz Segmentasyon Maskesi", display_mask)
 
-    # =========================
+   
     # 14. ANALİZ VERİSİ KAYDET
-    # =========================
-
     frame_numbers.append(frame_no)
     vehicle_counts.append(vehicle_count)
     density_labels.append(density)
 
-    # q tuşu ile çıkış
+   
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
 
-# =========================
 # 15. KAYNAKLARI KAPAT
-# =========================
-
 cap.release()
 detection_out.release()
 mask_out.release()
 cv2.destroyAllWindows()
 
-# =========================
 # 16. CSV KAYDETME
-# =========================
-
 df = pd.DataFrame({
     "Frame": frame_numbers,
     "Vehicle_Count": vehicle_counts,
@@ -352,10 +310,8 @@ df = pd.DataFrame({
 
 df.to_csv(csv_path, index=False)
 
-# =========================
-# 17. GRAFİK KAYDETME
-# =========================
 
+# 17. GRAFİK KAYDETME
 plt.figure(figsize=(12, 6))
 plt.plot(frame_numbers, vehicle_counts)
 plt.xlabel("Frame Numarası")
@@ -365,10 +321,7 @@ plt.grid(True)
 plt.savefig(graph_path, dpi=300)
 plt.close()
 
-# =========================
 # 18. ANALYSIS SUMMARY KAYDETME
-# =========================
-
 average_count = np.mean(vehicle_counts)
 max_count = np.max(vehicle_counts)
 min_count = np.min(vehicle_counts)
@@ -412,10 +365,8 @@ with open(summary_path, "w", encoding="utf-8") as file:
         else:
             file.write(f"{density_name}: Bu yogunluk seviyesine ait uygun frame bulunamadi.\n")
 
-# =========================
-# 19. ÖZET SONUÇLAR
-# =========================
 
+# 19. ÖZET SONUÇLAR
 print("\nAnaliz tamamlandı.")
 
 print("\nOluşturulan dosyalar:")
