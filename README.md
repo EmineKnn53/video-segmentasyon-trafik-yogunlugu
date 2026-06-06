@@ -52,19 +52,18 @@ Projede kullanılan temel teknolojiler şunlardır:
 
 Projede kullanılan trafik videosu Kaggle üzerinden alınmıştır.
 
-Veri seti bağlantısı:
+Kaggle veri seti bağlantısı:
 
 https://www.kaggle.com/datasets/abirsaha2307/video-for-traffic-anomaly-detection
 
-Video dosyası GitHub tek dosya boyut sınırını aştığı için repoya eklenmemiştir. Projeyi çalıştırmak için Kaggle bağlantısından video dosyası indirilmeli ve proje klasöründe aşağıdaki konuma yerleştirilmelidir:
+Google Drive yedek video bağlantısı:
+
+https://drive.google.com/file/d/1850itDRPyYAol_Ur-LxQFhNSYGYXRL3U/view?usp=sharing
+
+Video dosyası GitHub tek dosya boyut sınırını aştığı için repoya eklenmemiştir. Projeyi çalıştırmak için Kaggle bağlantısından veya Google Drive yedek bağlantısından video dosyası indirilmeli ve proje klasöründe aşağıdaki konuma yerleştirilmelidir:
 
 ```text
 data/traffic_video.mp4
-```
-
-Video dosyasının adı kod ile uyumlu olması için `traffic_video.mp4` olmalıdır.
-
-Video üzerinde her kare okunarak araç tespiti, segmentasyon maskesi oluşturma ve yoğunluk analizi işlemleri gerçekleştirilmiştir.
 
 ---
 
