@@ -1,0 +1,23 @@
+# Python cache dosyalari
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Sanal ortam klasorleri
+.venv/
+venv/
+env/
+
+# Visual Studio dosyalari
+.vs/
+
+# YOLO model agirlik dosyasi
+yolov8n.pt
+
+# Sistem dosyalari
+.DS_Store
+Thumbs.db
+
+# Buyuk video dosyasi GitHub'a yuklenmez
+data/traffic_video.mp4

@@ -1,0 +1,34 @@
+VIDEO SEGMENTASYONU ANALIZ OZETI
+================================
+
+Video Dosyasi:
+C:\Users\emine\Desktop\video_segmentasyon_projesi\data\traffic_video.mp4
+
+Video Bilgileri:
+FPS: 30.0
+Frame Sayisi: 1801
+Video Boyutu: 1920 x 1080
+
+Ozet Bulgular:
+Ortalama Arac Sayisi: 9.2
+Maksimum Arac Sayisi: 17
+Minimum Arac Sayisi: 0
+
+Yogunluk Karar Dagilimi:
+Density_Decision
+Orta Yogunluk      1160
+Dusuk Yogunluk      324
+Yuksek Yogunluk     315
+Bekleniyor            2
+Name: count, dtype: int64
+
+Olusturulan Dosyalar:
+Arac Tespit Videosu: C:\Users\emine\Desktop\video_segmentasyon_projesi\outputs\arac_tespit_sonucu.avi
+Segmentasyon Maskesi Videosu: C:\Users\emine\Desktop\video_segmentasyon_projesi\outputs\segmentasyon_maskesi.avi
+CSV Dosyasi: C:\Users\emine\Desktop\video_segmentasyon_projesi\outputs\analiz_sonuclari.csv
+Grafik: C:\Users\emine\Desktop\video_segmentasyon_projesi\report_images\arac_yogunluk_grafigi.png
+
+Karsilastirma Icin Kaydedilen Ornek Gorseller:
+Dusuk Yogunluk: low_density_detection.png ve low_density_mask.png
+Orta Yogunluk: medium_density_detection.png ve medium_density_mask.png
+Yuksek Yogunluk: high_density_detection.png ve high_density_mask.png
